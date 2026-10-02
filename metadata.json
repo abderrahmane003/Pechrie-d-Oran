@@ -1,0 +1,6 @@
+{
+  "name": "Rotisserie Yahia - مشاوي يحيى",
+  "description": "Site officiel de la Rôtisserie Yahia à Oran (M8PV+C78). Poulet rôti et à la braise, frites maison, gratins, carte interactive, commande WhatsApp et assistant Maps en direct.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
