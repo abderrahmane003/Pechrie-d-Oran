@@ -39,6 +39,7 @@ export function generateOrderWhatsAppUrl(
   orderType: 'emporter' | 'sur-place' | 'livraison',
   customerName: string,
   customerPhone: string,
+  deliveryAddress: string,
   orderNotes: string,
   lang: Language = 'fr'
 ): string {
@@ -57,6 +58,7 @@ export function generateOrderWhatsAppUrl(
     }\n`;
     if (customerName.trim()) msg += `*الزبون :* ${customerName}\n`;
     if (customerPhone.trim()) msg += `*الهاتف :* ${customerPhone}\n`;
+    if (orderType === 'livraison' && deliveryAddress.trim()) msg += `*عنوان التوصيل :* ${deliveryAddress}\n`;
     msg += `----------------------------------------\n`;
     msg += `*تفاصيل الطلبية :*\n`;
 
@@ -73,7 +75,11 @@ export function generateOrderWhatsAppUrl(
     if (orderNotes.trim()) {
       msg += `*ملاحظات :* ${orderNotes}\n`;
     }
-    msg += `\nيرجى تأكيد تجهيز الطلبية وتوقيت الاستلام بمسمكة وهران (5 شارع خيالي بن سالم محمد، وهران). شكراً !`;
+    if (orderType === 'livraison') {
+      msg += `\nيرجى تأكيد تجهيز الطلبية وتوقيت التوصيل. شكراً !`;
+    } else {
+      msg += `\nيرجى تأكيد تجهيز الطلبية وتوقيت الاستلام بمسمكة وهران (5 شارع خيالي بن سالم محمد، وهران). شكراً !`;
+    }
   } else {
     msg += `*🐟 COMMANDE - PÊCHERIE D'ORAN (مسمكة وهران)*\n`;
     msg += `----------------------------------------\n`;
@@ -87,6 +93,7 @@ export function generateOrderWhatsAppUrl(
 
     if (customerName.trim()) msg += `*Client :* ${customerName}\n`;
     if (customerPhone.trim()) msg += `*Téléphone :* ${customerPhone}\n`;
+    if (orderType === 'livraison' && deliveryAddress.trim()) msg += `*Adresse de livraison :* ${deliveryAddress}\n`;
     msg += `----------------------------------------\n`;
     msg += `*Détail de la commande :*\n`;
 
@@ -104,7 +111,11 @@ export function generateOrderWhatsAppUrl(
       msg += `*Notes & instructions :* ${orderNotes}\n`;
     }
 
-    msg += `\nMerci de me confirmer la préparation et l'heure de retrait à la Pêcherie d'Oran (5 Av. Khiali Ben Salem Mohamed, Oran 31000).`;
+    if (orderType === 'livraison') {
+      msg += `\nMerci de me confirmer la préparation et l'heure de livraison.`;
+    } else {
+      msg += `\nMerci de me confirmer la préparation et l'heure de retrait à la Pêcherie d'Oran (5 Av. Khiali Ben Salem Mohamed, Oran 31000).`;
+    }
   }
 
   return `${RESTAURANT_CONFIG.whatsappUrl}?text=${encodeURIComponent(msg)}`;
