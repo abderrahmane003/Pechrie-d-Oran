@@ -25,6 +25,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   const [orderType, setOrderType] = useState<'emporter' | 'sur-place' | 'livraison'>('emporter');
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
+  const [deliveryAddress, setDeliveryAddress] = useState('');
   const [orderNotes, setOrderNotes] = useState('');
   const { language, t } = useLanguage();
 
@@ -36,11 +37,17 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   );
 
   const handleWhatsAppOrder = () => {
+    if (orderType === 'livraison' && !deliveryAddress.trim()) {
+      alert(language === 'ar' ? 'يرجى إدخال عنوان التوصيل.' : 'Veuillez saisir votre adresse de livraison.');
+      return;
+    }
+
     const url = generateOrderWhatsAppUrl(
       items,
       orderType,
       customerName,
       customerPhone,
+      deliveryAddress,
       orderNotes,
       language
     );
@@ -197,6 +204,18 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     className="w-full px-3 py-2 bg-stone-950 border border-stone-800 rounded-lg text-xs text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500"
                   />
                 </div>
+
+                {orderType === 'livraison' && (
+                  <div>
+                    <textarea
+                      rows={2}
+                      value={deliveryAddress}
+                      onChange={(e) => setDeliveryAddress(e.target.value)}
+                      placeholder={language === 'ar' ? 'عنوان التوصيل *' : 'Adresse de livraison *'}
+                      className="w-full px-3 py-2 bg-stone-950 border border-stone-800 rounded-lg text-xs text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500 resize-none"
+                    />
+                  </div>
+                )}
 
                 <div>
                   <textarea
