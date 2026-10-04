@@ -33,7 +33,7 @@ export const Hero: React.FC<HeroProps> = ({
   };
 
   return (
-    <section id="hero" className="relative min-h-[92vh] flex items-center pt-24 pb-12 sm:pb-16 overflow-hidden">
+    <section id="hero" className="relative min-h-[auto] lg:min-h-[92vh] flex items-center pt-20 sm:pt-24 pb-8 sm:pb-12 lg:pb-16 overflow-hidden">
       {/* Background imagery with oceanic deep water & grilled seafood theme */}
       <div className="absolute inset-0 z-0">
         <img
@@ -47,9 +47,9 @@ export const Hero: React.FC<HeroProps> = ({
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 items-center">
           {/* Main Hero Column */}
-          <div className="lg:col-span-8 space-y-5 sm:space-y-6 text-left">
+          <div className="lg:col-span-8 space-y-4 sm:space-y-5 lg:space-y-6 text-left">
             {/* Badges bar */}
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 backdrop-blur-sm">
@@ -76,7 +76,7 @@ export const Hero: React.FC<HeroProps> = ({
 
             {/* Title & Arabic */}
             <div className="space-y-2">
-              <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-tight">
+              <h1 className="text-[2rem] leading-[1.08] sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-tight">
                 {language === 'ar' ? RESTAURANT_CONFIG.arabicName : RESTAURANT_CONFIG.name} <br />
                 <span className="bg-gradient-to-r from-cyan-400 via-amber-400 to-amber-200 bg-clip-text text-transparent font-arabic text-2xl sm:text-4xl md:text-5xl font-extrabold">
                   {language === 'ar' ? RESTAURANT_CONFIG.name : RESTAURANT_CONFIG.arabicName}
@@ -88,12 +88,12 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
 
             {/* Action buttons - Mobile touch-optimized */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-wrap items-center gap-2.5 pt-2">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:flex lg:flex-wrap items-center gap-2 pt-1 sm:pt-2">
               <a
                 href={RESTAURANT_CONFIG.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto px-5 py-3.5 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-stone-950 font-black text-sm sm:text-base rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/60"
+                className="w-full sm:w-auto px-3 sm:px-5 py-3 sm:py-3.5 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-stone-950 font-black text-sm sm:text-base rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/60"
               >
                 <MessageCircle className="w-5 h-5 text-stone-950" />
                 <span>{t.hero.orderWhatsapp}</span>
@@ -101,7 +101,7 @@ export const Hero: React.FC<HeroProps> = ({
 
               <button
                 onClick={onExploreMenu}
-                className="w-full sm:w-auto px-5 py-3.5 bg-gradient-to-r from-orange-600 via-amber-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 active:scale-95 text-stone-950 font-extrabold text-sm sm:text-base rounded-xl shadow-lg shadow-orange-950/60 transition-all flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-3 sm:px-5 py-3 sm:py-3.5 bg-gradient-to-r from-orange-600 via-amber-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 active:scale-95 text-stone-950 font-extrabold text-sm sm:text-base rounded-xl shadow-lg shadow-orange-950/60 transition-all flex items-center justify-center gap-2"
               >
                 <span>{t.hero.exploreMenu}</span>
                 <ArrowRight className="w-4 h-4 text-stone-950" />
@@ -109,7 +109,7 @@ export const Hero: React.FC<HeroProps> = ({
 
               <a
                 href={`tel:${RESTAURANT_CONFIG.phone.replace(/[^0-9]/g, '')}`}
-                className="w-full sm:w-auto px-4 py-3 bg-stone-900 hover:bg-stone-800 active:scale-95 border border-stone-700 text-white font-bold text-xs sm:text-sm rounded-xl transition-colors flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-3 sm:px-4 py-3 bg-stone-900 hover:bg-stone-800 active:scale-95 border border-stone-700 text-white font-bold text-xs sm:text-sm rounded-xl transition-colors flex items-center justify-center gap-2"
               >
                 <Phone className="w-4 h-4 text-amber-500" />
                 <span>{t.hero.callDirect} ({RESTAURANT_CONFIG.phone})</span>
@@ -119,7 +119,7 @@ export const Hero: React.FC<HeroProps> = ({
                 href={RESTAURANT_CONFIG.mapsSearchUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto px-4 py-3 bg-stone-900/80 hover:bg-stone-800 active:scale-95 border border-stone-700 text-stone-200 text-xs sm:text-sm font-semibold rounded-xl transition-colors flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-3 sm:px-4 py-3 bg-stone-900/80 hover:bg-stone-800 active:scale-95 border border-stone-700 text-stone-200 text-xs sm:text-sm font-semibold rounded-xl transition-colors flex items-center justify-center gap-2"
               >
                 <MapPin className="w-4 h-4 text-cyan-400" />
                 <span>{t.hero.googleMaps}</span>
@@ -128,7 +128,7 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
 
             {/* Quick Actions toolbar */}
-            <div className="flex flex-wrap items-center gap-3 pt-3 text-xs text-stone-400 border-t border-stone-800/80">
+            <div className="hidden sm:flex flex-wrap items-center gap-3 pt-3 text-xs text-stone-400 border-t border-stone-800/80">
               <span className="font-medium text-stone-300">{t.hero.mapsQuickActions}</span>
               <button
                 onClick={handleCopyPlusCode}
@@ -157,7 +157,7 @@ export const Hero: React.FC<HeroProps> = ({
           </div>
 
           {/* Right Feature Card with Google Maps cordony look */}
-          <div className="lg:col-span-4">
+          <div className="hidden lg:block lg:col-span-4">
             <div className="bg-gradient-to-b from-stone-900/90 to-stone-950/95 border border-cyan-900/40 rounded-2xl p-5 shadow-2xl shadow-black/80 backdrop-blur-md relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none" />
 
