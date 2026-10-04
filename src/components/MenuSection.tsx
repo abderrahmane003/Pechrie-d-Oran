@@ -62,18 +62,18 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
   };
 
   return (
-    <section id="menu" className="py-16 sm:py-20 bg-stone-950 text-stone-100 relative">
+    <section id="menu" className="py-10 sm:py-16 lg:py-20 bg-stone-950 text-stone-100 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3 mb-8 sm:mb-10">
+        <div className="text-center max-w-3xl mx-auto space-y-2.5 mb-6 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
             <Fish className="w-3.5 h-3.5 text-cyan-400" />
             {t.menu.badge}
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
             {t.menu.title}
           </h2>
-          <div className="text-cyan-400 font-bold font-arabic text-lg">
+          <div className="text-cyan-400 font-bold font-arabic text-[15px] sm:text-lg">
             {t.menu.subtitle}
           </div>
           <p className="text-stone-400 text-sm sm:text-base leading-relaxed">
@@ -82,7 +82,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
         </div>
 
         {/* Search & Filter Toolbar */}
-        <div className="space-y-4 mb-8">
+        <div className="space-y-3 mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
             <div className="relative w-full sm:max-w-md">
               <Search className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -101,7 +101,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
           </div>
 
           {/* Sticky Categories pills for Mobile & Desktop */}
-          <div className="sticky top-14 sm:top-16 z-20 bg-stone-950/95 backdrop-blur-md py-2.5 -mx-4 px-4 sm:mx-0 sm:px-0 border-y border-stone-800/80">
+          <div className="sticky top-[3.5rem] sm:top-16 z-20 bg-stone-950/95 backdrop-blur-md py-2 -mx-4 px-4 sm:mx-0 sm:px-0 border-y border-stone-800/80">
             <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none snap-x snap-mandatory">
               {categories.map((cat) => (
                 <button
@@ -121,7 +121,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
         </div>
 
         {/* Menu Grid - Mobile Responsive */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
           {filteredItems.map((item) => {
             const isAdded = addedItemNotice === item.id;
             const currentSpice = selectedSpiceByItem[item.id] || 'Moyen';
@@ -132,10 +132,10 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                 className="group bg-stone-900/60 border border-stone-800 hover:border-cyan-500/50 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col justify-between hover:shadow-xl hover:shadow-black/50"
               >
                 {/* Visual Component */}
-                <DishVisual item={item} className="h-44 sm:h-52" />
+                <DishVisual item={item} className="h-40 sm:h-48 lg:h-52" />
 
                 {/* Content */}
-                <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-4">
+                <div className="p-3.5 sm:p-5 flex-1 flex flex-col justify-between space-y-3 sm:space-y-4">
                   <div>
                     <div className="flex items-start justify-between gap-2">
                       <h3 className="font-bold text-base sm:text-lg text-white group-hover:text-amber-400 transition-colors">
@@ -145,7 +145,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                     <div className="text-amber-400/90 text-xs sm:text-sm font-arabic font-bold pt-0.5">
                       {language === 'ar' ? item.name : item.nameArabic}
                     </div>
-                    <p className="text-stone-400 text-xs sm:text-sm mt-2 line-clamp-3 leading-relaxed">
+                    <p className="text-stone-400 text-xs sm:text-sm mt-1.5 sm:mt-2 line-clamp-3 leading-relaxed">
                       {item.description}
                     </p>
                   </div>
@@ -179,7 +179,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                   {/* Add to order button */}
                   <button
                     onClick={() => handleAddWithFeedback(item)}
-                    className={`w-full py-2.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-95 ${
+                    className={`w-full min-h-11 py-2.5 px-3 sm:px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-95 ${
                       isAdded
                         ? 'bg-emerald-600 text-white'
                         : 'bg-stone-800 hover:bg-amber-500 hover:text-stone-950 text-stone-200 border border-stone-700 hover:border-amber-500'
