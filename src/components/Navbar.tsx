@@ -34,7 +34,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           : 'bg-gradient-to-b from-stone-950/90 via-stone-950/50 to-transparent py-3 sm:py-4'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Brand Logo & Arabic typography */}
           <div
@@ -87,11 +87,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
 
           {/* Action buttons */}
-          <div className="flex items-center gap-1.5 sm:gap-3">
+          <div className="flex items-center gap-1 sm:gap-2.5 sm:gap-3">
             {/* Language Switcher Button (FR / AR) */}
             <button
               onClick={toggleLanguage}
-              className="px-2.5 py-1.5 text-xs font-bold rounded-lg border border-stone-800 bg-stone-900/90 hover:bg-stone-800 text-stone-200 hover:text-amber-400 flex items-center gap-1.5 transition-colors shadow-sm"
+              className="px-2 py-1.5 sm:px-2.5 text-xs font-bold rounded-lg border border-stone-800 bg-stone-900/90 hover:bg-stone-800 text-stone-200 hover:text-amber-400 flex items-center gap-1.5 transition-colors shadow-sm"
               title={language === 'fr' ? 'Passer en Arabe (العربية)' : 'Passer en Français'}
             >
               <Globe className="w-3.5 h-3.5 text-cyan-400" />
@@ -126,7 +126,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Cart Button */}
             <button
               onClick={onOpenCart}
-              className="relative p-2 sm:px-3 sm:py-2 flex items-center gap-2 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-stone-950 font-bold text-xs sm:text-sm rounded-lg shadow-md shadow-orange-950/40 transition-transform active:scale-95"
+              className="relative p-2.5 sm:px-3 sm:py-2 flex items-center gap-2 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-stone-950 font-bold text-xs sm:text-sm rounded-lg shadow-md shadow-orange-950/40 transition-transform active:scale-95"
             >
               <ShoppingBag className="w-4 h-4 text-stone-950" />
               <span className="hidden sm:inline">{t.nav.cart}</span>
