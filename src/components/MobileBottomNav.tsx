@@ -1,6 +1,8 @@
 import React from 'react';
 import { UtensilsCrossed, MessageCircle, ShoppingBag, Navigation, Phone } from 'lucide-react';
 import { RESTAURANT_CONFIG } from '../data/restaurantData';
+import { useLanguage } from '../i18n/LanguageContext';
+import { formatDA } from '../cart';
 
 interface MobileBottomNavProps {
   cartCount: number;
@@ -15,6 +17,8 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
   onOpenCart,
   onNavigateSection,
 }) => {
+  const { language, t } = useLanguage();
+
   const mapsDirUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
     'Pêcherie d\'Oran, 5 Av. Khiali Ben Salem Mohamed, Oran 31000, Algérie'
   )}`;
@@ -28,13 +32,15 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
           className="flex flex-col items-center justify-center flex-1 py-1.5 px-1 rounded-xl text-stone-300 hover:text-cyan-400 active:scale-95 transition-all"
         >
           <UtensilsCrossed className="w-5 h-5 text-cyan-400 mb-0.5" />
-          <span className="text-[10px] font-semibold tracking-tight">La Carte</span>
+          <span className="text-[10px] font-semibold tracking-tight">{t.mobileNav.menu}</span>
         </button>
 
         {/* WhatsApp Direct */}
         <a
           href={`${RESTAURANT_CONFIG.whatsappUrl}?text=${encodeURIComponent(
-            'Salam Pêcherie d\'Oran ! Je souhaite passer une commande de poisson frais.'
+            language === 'ar'
+              ? 'السلام عليكم مسمكة وهران ! أود تقديم طلبية أسماك طازجة.'
+              : 'Salam Pêcherie d\'Oran ! Je souhaite passer une commande de poisson frais.'
           )}`}
           target="_blank"
           rel="noopener noreferrer"
@@ -44,7 +50,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
             <MessageCircle className="w-5 h-5 text-emerald-400 mb-0.5" />
             <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           </div>
-          <span className="text-[10px] font-semibold tracking-tight text-emerald-400">WhatsApp</span>
+          <span className="text-[10px] font-semibold tracking-tight text-emerald-400">{t.mobileNav.whatsapp}</span>
         </a>
 
         {/* Cart Primary Central Button */}
@@ -61,7 +67,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
             )}
           </div>
           <span className="text-[11px] font-black tracking-tight mt-0.5">
-            {cartCount > 0 ? `${cartTotal.toLocaleString('fr-FR')} DA` : 'Panier'}
+            {cartCount > 0 ? formatDA(cartTotal, language) : t.mobileNav.cart}
           </span>
         </button>
 
@@ -73,7 +79,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
           className="flex flex-col items-center justify-center flex-1 py-1.5 px-1 rounded-xl text-stone-300 hover:text-cyan-400 active:scale-95 transition-all"
         >
           <Navigation className="w-5 h-5 text-cyan-400 mb-0.5" />
-          <span className="text-[10px] font-semibold tracking-tight">GPS</span>
+          <span className="text-[10px] font-semibold tracking-tight">{t.mobileNav.gps}</span>
         </a>
 
         {/* Direct Phone Call */}
@@ -82,7 +88,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
           className="flex flex-col items-center justify-center flex-1 py-1.5 px-1 rounded-xl text-stone-300 hover:text-amber-400 active:scale-95 transition-all"
         >
           <Phone className="w-5 h-5 text-amber-400 mb-0.5" />
-          <span className="text-[10px] font-semibold tracking-tight">Appeler</span>
+          <span className="text-[10px] font-semibold tracking-tight">{t.mobileNav.call}</span>
         </a>
       </div>
     </div>

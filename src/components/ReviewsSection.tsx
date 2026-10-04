@@ -10,8 +10,10 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import { GOOGLE_REVIEWS, REVIEW_TAGS, RESTAURANT_CONFIG } from '../data/restaurantData';
+import { useLanguage } from '../i18n/LanguageContext';
 
 export const ReviewsSection: React.FC = () => {
+  const { t } = useLanguage();
   const [selectedTag, setSelectedTag] = useState<string>('Tout');
   const [likesState, setLikesState] = useState<Record<string, number>>({});
   const [showWriteModal, setShowWriteModal] = useState(false);
@@ -51,13 +53,13 @@ export const ReviewsSection: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/30">
             <Star className="w-3.5 h-3.5 fill-amber-400" />
-            Résumé des avis Google Maps
+            {t.reviews.badge}
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-            Ce que disent nos clients à Oran
+            {t.reviews.title}
           </h2>
           <p className="text-stone-400 text-sm sm:text-base">
-            44 avis vérifiés et retours authentiques de la communauté et des Local Guides d’Oran.
+            {t.reviews.subtitle}
           </p>
         </div>
 
@@ -75,17 +77,17 @@ export const ReviewsSection: React.FC = () => {
                 ))}
               </div>
               <div className="text-sm font-semibold text-stone-300">
-                44 avis Google Maps
+                {t.reviews.googleMapsReviews}
               </div>
               <div className="text-xs text-stone-500">
-                Signalé par 3 personnes · 1–6 000 DA
+                {t.reviews.reportedBy}
               </div>
               <div className="pt-2">
                 <button
                   onClick={() => setShowWriteModal(true)}
                   className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs rounded-xl transition-colors shadow-sm"
                 >
-                  Rédiger un avis
+                  {t.reviews.writeReview}
                 </button>
               </div>
             </div>

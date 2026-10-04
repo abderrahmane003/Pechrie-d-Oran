@@ -6,15 +6,12 @@ import {
   Clock,
   Phone,
   ArrowRight,
-  ShieldCheck,
   Utensils,
-  Share2,
-  Bookmark,
-  Sparkles,
   ExternalLink,
   MessageCircle,
 } from 'lucide-react';
 import { RESTAURANT_CONFIG } from '../data/restaurantData';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface HeroProps {
   onExploreMenu: () => void;
@@ -27,6 +24,7 @@ export const Hero: React.FC<HeroProps> = ({
   onScrollToReviews,
 }) => {
   const [copiedPlusCode, setCopiedPlusCode] = React.useState(false);
+  const { language, t } = useLanguage();
 
   const handleCopyPlusCode = () => {
     navigator.clipboard.writeText(RESTAURANT_CONFIG.address);
@@ -35,13 +33,13 @@ export const Hero: React.FC<HeroProps> = ({
   };
 
   return (
-    <section id="hero" className="relative min-h-[92vh] flex items-center pt-24 pb-16 overflow-hidden">
+    <section id="hero" className="relative min-h-[92vh] flex items-center pt-24 pb-12 sm:pb-16 overflow-hidden">
       {/* Background imagery with oceanic deep water & grilled seafood theme */}
       <div className="absolute inset-0 z-0">
         <img
           src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=2000&q=85"
           alt="Poissons frais et fruits de mer grillés"
-          className="w-full h-full object-cover object-center filter brightness-[0.25] contrast-125 scale-105 transform motion-safe:animate-pulse"
+          className="w-full h-full object-cover object-center filter brightness-[0.22] contrast-125 scale-105 transform motion-safe:animate-pulse"
           style={{ animationDuration: '10s' }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/80 to-transparent" />
@@ -49,14 +47,14 @@ export const Hero: React.FC<HeroProps> = ({
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           {/* Main Hero Column */}
-          <div className="lg:col-span-8 space-y-6 text-left">
+          <div className="lg:col-span-8 space-y-5 sm:space-y-6 text-left">
             {/* Badges bar */}
-            <div className="flex flex-wrap items-center gap-2.5">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 backdrop-blur-sm">
                 <Fish className="w-3.5 h-3.5 text-cyan-400" />
-                Restaurant de Poisson & Pêcherie · Oran
+                {t.hero.badge}
               </span>
 
               <button
@@ -67,25 +65,25 @@ export const Hero: React.FC<HeroProps> = ({
                   <Star className="w-3.5 h-3.5 fill-amber-400" />
                   <span className="ml-1 font-bold">4,8</span>
                 </div>
-                <span className="text-stone-400">(44 avis Google Maps)</span>
+                <span className="text-stone-400">({RESTAURANT_CONFIG.reviewsCount} {language === 'ar' ? 'تقييم' : 'avis Google Maps'})</span>
               </button>
 
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/60 border border-emerald-600/40 text-emerald-300">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block" />
-                Ouvert · Arrivage quotidien de la criée
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping inline-block" />
+                {t.nav.openStatus}
               </span>
             </div>
 
             {/* Title & Arabic */}
             <div className="space-y-2">
               <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-tight">
-                Pêcherie d'Oran <br />
+                {language === 'ar' ? RESTAURANT_CONFIG.arabicName : RESTAURANT_CONFIG.name} <br />
                 <span className="bg-gradient-to-r from-cyan-400 via-amber-400 to-amber-200 bg-clip-text text-transparent font-arabic text-2xl sm:text-4xl md:text-5xl font-extrabold">
-                  مسمكة وهران
+                  {language === 'ar' ? RESTAURANT_CONFIG.name : RESTAURANT_CONFIG.arabicName}
                 </span>
               </h1>
               <p className="text-stone-300 text-sm sm:text-lg md:text-xl font-normal max-w-2xl leading-relaxed pt-1">
-                L’authenticité des saveurs méditerranéennes au cœur d’Oran : poissons frais du port grillés au feu de bois, fritures croustillantes, gambas royales et grands plateaux de fruits de mer.
+                {t.hero.subtitle}
               </p>
             </div>
 
@@ -98,14 +96,14 @@ export const Hero: React.FC<HeroProps> = ({
                 className="w-full sm:w-auto px-5 py-3.5 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-stone-950 font-black text-sm sm:text-base rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/60"
               >
                 <MessageCircle className="w-5 h-5 text-stone-950" />
-                <span>Commander sur WhatsApp</span>
+                <span>{t.hero.orderWhatsapp}</span>
               </a>
 
               <button
                 onClick={onExploreMenu}
                 className="w-full sm:w-auto px-5 py-3.5 bg-gradient-to-r from-orange-600 via-amber-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 active:scale-95 text-stone-950 font-extrabold text-sm sm:text-base rounded-xl shadow-lg shadow-orange-950/60 transition-all flex items-center justify-center gap-2"
               >
-                <span>Consulter la Carte</span>
+                <span>{t.hero.exploreMenu}</span>
                 <ArrowRight className="w-4 h-4 text-stone-950" />
               </button>
 
@@ -114,7 +112,7 @@ export const Hero: React.FC<HeroProps> = ({
                 className="w-full sm:w-auto px-4 py-3 bg-stone-900 hover:bg-stone-800 active:scale-95 border border-stone-700 text-white font-bold text-xs sm:text-sm rounded-xl transition-colors flex items-center justify-center gap-2"
               >
                 <Phone className="w-4 h-4 text-amber-500" />
-                <span>Appeler ({RESTAURANT_CONFIG.phone})</span>
+                <span>{t.hero.callDirect} ({RESTAURANT_CONFIG.phone})</span>
               </a>
 
               <a
@@ -124,19 +122,19 @@ export const Hero: React.FC<HeroProps> = ({
                 className="w-full sm:w-auto px-4 py-3 bg-stone-900/80 hover:bg-stone-800 active:scale-95 border border-stone-700 text-stone-200 text-xs sm:text-sm font-semibold rounded-xl transition-colors flex items-center justify-center gap-2"
               >
                 <MapPin className="w-4 h-4 text-cyan-400" />
-                <span>Itinéraire Google Maps</span>
+                <span>{t.hero.googleMaps}</span>
                 <ExternalLink className="w-3.5 h-3.5 text-stone-400" />
               </a>
             </div>
 
-            {/* Cordony quick toolbar */}
+            {/* Quick Actions toolbar */}
             <div className="flex flex-wrap items-center gap-3 pt-3 text-xs text-stone-400 border-t border-stone-800/80">
-              <span className="font-medium text-stone-300">Actions rapides Maps :</span>
+              <span className="font-medium text-stone-300">{t.hero.mapsQuickActions}</span>
               <button
                 onClick={handleCopyPlusCode}
                 className="hover:text-cyan-400 flex items-center gap-1 transition-colors underline-offset-4 hover:underline"
               >
-                {copiedPlusCode ? '✓ Adresse copiée !' : 'Copier Plus Code P92Q+WG'}
+                {copiedPlusCode ? t.hero.addressCopied : t.hero.copyAddress}
               </button>
               <span>•</span>
               <a
@@ -145,7 +143,7 @@ export const Hero: React.FC<HeroProps> = ({
                 rel="noopener noreferrer"
                 className="hover:text-emerald-400 flex items-center gap-1 transition-colors underline-offset-4 hover:underline"
               >
-                WhatsApp : 0776 52 68 41
+                WhatsApp : {RESTAURANT_CONFIG.phone}
               </a>
               <span>•</span>
               <a
@@ -153,7 +151,7 @@ export const Hero: React.FC<HeroProps> = ({
                 className="hover:text-amber-400 flex items-center gap-1 transition-colors underline-offset-4 hover:underline"
               >
                 <Phone className="w-3 h-3 text-emerald-400" />
-                Appel direct : {RESTAURANT_CONFIG.phone}
+                {t.hero.callDirect} : {RESTAURANT_CONFIG.phone}
               </a>
             </div>
           </div>
@@ -167,7 +165,7 @@ export const Hero: React.FC<HeroProps> = ({
               <div className="flex items-center justify-between pb-4 border-b border-stone-800">
                 <div>
                   <div className="text-xs text-cyan-400 font-semibold uppercase tracking-wider">
-                    Fiche Établissement
+                    {t.hero.cardBadge}
                   </div>
                   <div className="text-white font-bold text-lg">
                     {RESTAURANT_CONFIG.name}
@@ -181,7 +179,7 @@ export const Hero: React.FC<HeroProps> = ({
                     <Star className="w-4 h-4 fill-amber-400" />
                     4,8
                   </div>
-                  <div className="text-[11px] text-stone-400 mt-0.5">44 avis</div>
+                  <div className="text-[11px] text-stone-400 mt-0.5">{t.hero.cardReviewsCount}</div>
                 </div>
               </div>
 
@@ -190,63 +188,45 @@ export const Hero: React.FC<HeroProps> = ({
                 <div className="flex items-start gap-3">
                   <MapPin className="w-4 h-4 text-cyan-500 shrink-0 mt-0.5" />
                   <div>
-                    <div className="font-semibold text-stone-200">5 Av. Khiali Ben Salem Mohamed</div>
-                    <div className="text-stone-400">P92Q+WG Oran 31000, Algérie</div>
+                    <div className="font-semibold text-stone-200">{RESTAURANT_CONFIG.address}</div>
+                    <div className="text-stone-400">{RESTAURANT_CONFIG.plusCode}, Algérie</div>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <Clock className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                   <div>
-                    <div className="font-semibold text-emerald-300">Ouvert · Service midi & soir</div>
-                    <div className="text-stone-400">Arrivage direct journalier de poissons frais</div>
+                    <div className="font-semibold text-emerald-300">{t.hero.openHours}</div>
+                    <div className="text-stone-400">{t.location.dailyCatch}</div>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <Phone className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                   <div>
-                    <div className="font-semibold text-stone-200">0776 52 68 41</div>
-                    <div className="text-stone-400">Commandes & réservations emportées</div>
+                    <div className="font-semibold text-stone-200">{RESTAURANT_CONFIG.phone}</div>
+                    <div className="text-stone-400">{t.hero.phoneLabel}</div>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <Utensils className="w-4 h-4 text-orange-400 shrink-0 mt-0.5" />
                   <div>
-                    <div className="font-semibold text-stone-200">Repas sur place · Vente à emporter</div>
-                    <div className="text-stone-400">1 000 – 6 000 DA par personne</div>
+                    <div className="font-semibold text-stone-200">{t.hero.serviceModes}</div>
+                    <div className="text-stone-400">{RESTAURANT_CONFIG.pricePerPerson}</div>
                   </div>
                 </div>
               </div>
 
-              {/* Popular customer quote excerpt */}
+              {/* Customer quote excerpt */}
               <div className="bg-stone-950/80 rounded-xl p-3 border border-stone-800/80 text-xs space-y-1">
                 <div className="flex items-center justify-between text-stone-400 text-[11px]">
-                  <span className="font-semibold text-amber-400">Sadek Bouziane (Local Guide)</span>
+                  <span className="font-semibold text-amber-400">{t.hero.quoteTitle}</span>
                   <span>⭐⭐⭐⭐⭐</span>
                 </div>
                 <p className="text-stone-300 italic line-clamp-3">
-                  « J'ai récemment visité ce restaurant et je dois dire que j'ai été extrêmement impressionné. La cuisson était parfaite, les poissons et plats étaient juteux et pleins de saveur... »
+                  {t.hero.quoteText}
                 </p>
-              </div>
-
-              {/* Card Footer CTAs */}
-              <div className="pt-4 grid grid-cols-2 gap-2">
-                <a
-                  href={RESTAURANT_CONFIG.whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="py-2.5 px-3 bg-emerald-600 hover:bg-emerald-500 text-stone-950 font-bold rounded-lg text-xs text-center transition-colors"
-                >
-                  WhatsApp Rapide
-                </a>
-                <a
-                  href={`tel:${RESTAURANT_CONFIG.phone.replace(/\s+/g, '')}`}
-                  className="py-2.5 px-3 bg-stone-800 hover:bg-stone-700 text-stone-200 font-semibold rounded-lg text-xs text-center transition-colors"
-                >
-                  Appeler
-                </a>
               </div>
             </div>
           </div>

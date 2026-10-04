@@ -15,12 +15,14 @@ import {
   QrCode,
 } from 'lucide-react';
 import { RESTAURANT_CONFIG } from '../data/restaurantData';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface MapsLocationSectionProps {
   onOpenAiAssistant?: () => void;
 }
 
 export const MapsLocationSection: React.FC<MapsLocationSectionProps> = () => {
+  const { t } = useLanguage();
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedShareLink, setCopiedShareLink] = useState(false);
   const [showPhoneQr, setShowPhoneQr] = useState(false);
@@ -74,14 +76,13 @@ export const MapsLocationSection: React.FC<MapsLocationSectionProps> = () => {
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/30">
             <Compass className="w-3.5 h-3.5" />
-            Localisation & Itinéraires Google Maps
+            {t.location.badge}
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-            Nous trouver facilement à Oran
+            {t.location.title}
           </h2>
           <p className="text-stone-400 text-sm sm:text-base">
-            Repère Google Maps Plus Code : <strong className="text-amber-400">{plusCode}</strong>.
-            Accessible rapidement depuis les grands axes d'Oran.
+            {t.location.subtitle}
           </p>
         </div>
 

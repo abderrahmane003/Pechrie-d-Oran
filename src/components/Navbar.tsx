@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, MapPin, ShoppingBag, Fish, Clock, MessageCircle } from 'lucide-react';
+import { Phone, ShoppingBag, Fish, MessageCircle, Globe } from 'lucide-react';
 import { RESTAURANT_CONFIG } from '../data/restaurantData';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface NavbarProps {
   cartCount: number;
@@ -12,16 +13,16 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({
   cartCount,
   onOpenCart,
-  onOpenAiAssistant,
   onNavigateSection,
 }) => {
   const [scrolled, setScrolled] = useState(false);
+  const { language, toggleLanguage, t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -29,8 +30,8 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
-          ? 'bg-stone-950/95 backdrop-blur-md border-b border-cyan-950/40 shadow-xl shadow-black/60 py-3'
-          : 'bg-gradient-to-b from-stone-950/90 via-stone-950/50 to-transparent py-4'
+          ? 'bg-stone-950/95 backdrop-blur-md border-b border-cyan-950/40 shadow-xl shadow-black/60 py-2.5 sm:py-3'
+          : 'bg-gradient-to-b from-stone-950/90 via-stone-950/50 to-transparent py-3 sm:py-4'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -38,31 +39,26 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Brand Logo & Arabic typography */}
           <div
             onClick={() => onNavigateSection('hero')}
-            className="flex items-center gap-3 cursor-pointer group"
+            className="flex items-center gap-2.5 sm:gap-3 cursor-pointer group"
           >
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-cyan-600 via-amber-500 to-orange-500 p-0.5 shadow-lg shadow-cyan-950/50 group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-cyan-600 via-amber-500 to-orange-500 p-0.5 shadow-lg shadow-cyan-950/50 group-hover:scale-105 transition-transform">
               <div className="w-full h-full bg-stone-950 rounded-[10px] flex items-center justify-center">
-                <Fish className="w-6 h-6 text-amber-400 group-hover:text-cyan-400 transition-colors" />
+                <Fish className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400 group-hover:text-cyan-400 transition-colors" />
               </div>
             </div>
             <div>
               <div className="flex items-baseline gap-2">
-                <span className="text-lg sm:text-xl font-bold tracking-tight text-white group-hover:text-amber-400 transition-colors">
-                  {RESTAURANT_CONFIG.name}
+                <span className="text-base sm:text-xl font-bold tracking-tight text-white group-hover:text-amber-400 transition-colors">
+                  {language === 'ar' ? RESTAURANT_CONFIG.arabicName : RESTAURANT_CONFIG.name}
                 </span>
-                <span className="text-amber-400/90 text-sm font-arabic font-bold hidden sm:inline">
-                  {RESTAURANT_CONFIG.arabicName}
+                <span className="text-amber-400/90 text-xs sm:text-sm font-arabic font-bold hidden md:inline">
+                  {language === 'ar' ? RESTAURANT_CONFIG.name : RESTAURANT_CONFIG.arabicName}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-xs text-stone-400">
+              <div className="flex items-center gap-2 text-[11px] sm:text-xs text-stone-400">
                 <span className="inline-flex items-center gap-1 text-emerald-400 font-medium">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block" />
-                  {RESTAURANT_CONFIG.status}
-                </span>
-                <span className="hidden md:inline text-stone-600">•</span>
-                <span className="hidden md:inline-flex items-center gap-1 text-stone-400">
-                  <MapPin className="w-3 h-3 text-amber-500" />
-                  {RESTAURANT_CONFIG.address}
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping inline-block" />
+                  {t.nav.openStatus}
                 </span>
               </div>
             </div>
@@ -74,24 +70,34 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => onNavigateSection('menu')}
               className="hover:text-amber-400 transition-colors"
             >
-              Menu Officiel & Plats
+              {t.nav.menu}
             </button>
             <button
               onClick={() => onNavigateSection('avis')}
               className="hover:text-amber-400 transition-colors"
             >
-              Avis Google (123)
+              {t.nav.reviews}
             </button>
             <button
               onClick={() => onNavigateSection('maps')}
               className="hover:text-amber-400 transition-colors"
             >
-              Itinéraire Oran
+              {t.nav.location}
             </button>
           </nav>
 
           {/* Action buttons */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3">
+            {/* Language Switcher Button (FR / AR) */}
+            <button
+              onClick={toggleLanguage}
+              className="px-2.5 py-1.5 text-xs font-bold rounded-lg border border-stone-800 bg-stone-900/90 hover:bg-stone-800 text-stone-200 hover:text-amber-400 flex items-center gap-1.5 transition-colors shadow-sm"
+              title={language === 'fr' ? 'Passer en Arabe (العربية)' : 'Passer en Français'}
+            >
+              <Globe className="w-3.5 h-3.5 text-cyan-400" />
+              <span className="font-semibold">{t.nav.langSwitch}</span>
+            </button>
+
             {/* Direct Phone Call */}
             <a
               href={`tel:${RESTAURANT_CONFIG.phone.replace(/[^0-9]/g, '')}`}
@@ -104,7 +110,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Direct WhatsApp link */}
             <a
               href={`${RESTAURANT_CONFIG.whatsappUrl}?text=${encodeURIComponent(
-                'Salam Pêcherie d\'Oran (مسمكة وهران) ! Je souhaite passer une commande de poisson frais.'
+                language === 'ar'
+                  ? 'السلام عليكم مسمكة وهران ! أود تقديم طلبية أسماك طازجة.'
+                  : 'Salam Pêcherie d\'Oran (مسمكة وهران) ! Je souhaite passer une commande de poisson frais.'
               )}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -121,7 +129,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="relative p-2 sm:px-3 sm:py-2 flex items-center gap-2 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-stone-950 font-bold text-xs sm:text-sm rounded-lg shadow-md shadow-orange-950/40 transition-transform active:scale-95"
             >
               <ShoppingBag className="w-4 h-4 text-stone-950" />
-              <span className="hidden sm:inline">Panier</span>
+              <span className="hidden sm:inline">{t.nav.cart}</span>
               {cartCount > 0 && (
                 <span className="w-5 h-5 bg-stone-950 text-amber-400 text-xs rounded-full flex items-center justify-center font-black">
                   {cartCount}

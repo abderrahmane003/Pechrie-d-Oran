@@ -11,6 +11,7 @@ import {
   Navigation,
 } from 'lucide-react';
 import { RESTAURANT_CONFIG } from '../data/restaurantData';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface FooterProps {
   onOpenAiAssistant?: () => void;
@@ -22,6 +23,8 @@ export const Footer: React.FC<FooterProps> = ({
   onOpenPhotos,
   onNavigateSection,
 }) => {
+  const { language, t } = useLanguage();
+
   return (
     <footer className="bg-stone-950 border-t border-stone-900 text-stone-400 pt-16 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
