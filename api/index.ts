@@ -1,16 +1,7 @@
-import express from 'express';
-import { createServer as createViteServer } from 'vite';
+import express, { Request, Response } from 'express';
 import { GoogleGenAI } from '@google/genai';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import fs from 'fs';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = Number(process.env.PORT) || 3000;
-
 app.use(express.json());
 
 const apiKey = process.env.GEMINI_API_KEY || '';
@@ -25,7 +16,6 @@ const ai = apiKey
     })
   : null;
 
-// Restaurant canonical data - Pêcherie d'Oran (مسمكة وهران)
 const RESTAURANT_DATA = {
   name: 'Pêcherie d\'Oran - مسمكة وهران',
   tagline: 'Arrivage direct de la Méditerranée, poissons frais grillés au charbon et fruits de mer à Oran',
@@ -48,12 +38,12 @@ const RESTAURANT_DATA = {
 };
 
 // API: Restaurant Info
-app.get('/api/info', (_req, res) => {
+app.get('/api/info', (_req: Request, res: Response) => {
   res.json(RESTAURANT_DATA);
 });
 
 // API: Maps Grounding Assistant via Gemini 3.8 Flash
-app.post('/api/gemini/maps-assistant', async (req, res) => {
+app.post('/api/gemini/maps-assistant', async (req: Request, res: Response) => {
   const { prompt, userLat, userLng } = req.body;
 
   if (!prompt || typeof prompt !== 'string') {
@@ -64,7 +54,6 @@ app.post('/api/gemini/maps-assistant', async (req, res) => {
   const effectiveLat = typeof userLat === 'number' ? userLat : RESTAURANT_DATA.coordinates.latitude;
   const effectiveLng = typeof userLng === 'number' ? userLng : RESTAURANT_DATA.coordinates.longitude;
 
-  // If Gemini API Key is available, use GoogleGenAI with Maps Grounding
   if (ai) {
     try {
       const response = await ai.models.generateContent({
@@ -94,8 +83,6 @@ Consignes :
       });
 
       const text = response.text || '';
-      
-      // Extract Google Maps grounding chunks as instructed
       const candidate = response.candidates?.[0];
       const rawChunks = candidate?.groundingMetadata?.groundingChunks || [];
       const webSearchQueries = candidate?.groundingMetadata?.webSearchQueries || [];
@@ -109,7 +96,6 @@ Consignes :
       const mapsLinks: MapsLink[] = [];
 
       for (const chunk of rawChunks) {
-        // chunk may contain .maps or other structures
         if (chunk.maps?.uri) {
           mapsLinks.push({
             title: chunk.maps.title || 'Lieu sur Google Maps',
@@ -124,7 +110,6 @@ Consignes :
         }
       }
 
-      // Ensure the official Google Maps listing link is always present
       if (!mapsLinks.some((l) => l.uri.includes('P92Q') || l.title.includes('Pêcherie'))) {
         mapsLinks.unshift({
           title: 'Pêcherie d\'Oran sur Google Maps (P92Q+WG Oran)',
@@ -142,7 +127,6 @@ Consignes :
       return;
     } catch (err: any) {
       console.error('Gemini Maps Grounding Error:', err);
-      // Fallback response with accurate local data
       res.json({
         text: `Bienvenue à la Pêcherie d'Oran - مسمكة وهران ! Nous sommes situés au **5 Av. Khiali Ben Salem Mohamed, Oran 31000** (Plus Code Google Maps : **P92Q+WG**). 
         
@@ -163,7 +147,6 @@ Nous vous accueillons tous les jours avec l'arrivage frais de la criée du port 
     }
   }
 
-  // If no API key configured yet
   res.json({
     text: `Bienvenue à la Pêcherie d'Oran - مسمكة وهران ! 
 Nous sommes situés au repère Google Maps **P92Q+WG, Oran** (5 Av. Khiali Ben Salem Mohamed). 
@@ -175,37 +158,13 @@ Nos équipes préparent pour vous le meilleur poisson frais de Méditerranée d'
 Vous pouvez passer votre commande directement par WhatsApp ou lancer l'itinéraire Google Maps ci-dessous !`,
     mapsLinks: [
       {
-        title: 'Rotisserie Yahia sur Google Maps (M8PV+C78, Oran)',
+        title: 'Pêcherie d\'Oran sur Google Maps (P92Q+WG Oran)',
         uri: RESTAURANT_DATA.mapsUrl,
-        snippet: 'Itinéraire direct & Avis Google Maps',
+        snippet: 'Fiche officielle Google Maps · Note 4.8 (44 avis)',
       },
     ],
     source: 'local-knowledge-base',
   });
 });
 
-async function startServer() {
-  if (process.env.NODE_ENV !== 'production') {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: 'spa',
-    });
-    app.use(vite.middlewares);
-  } else {
-    const distPath = path.resolve(__dirname, 'dist');
-    if (fs.existsSync(distPath)) {
-      app.use(express.static(distPath));
-      app.get('*', (_req, res) => {
-        res.sendFile(path.resolve(distPath, 'index.html'));
-      });
-    }
-  }
-
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on http://0.0.0.0:${PORT}`);
-  });
-}
-
-startServer().catch((err) => {
-  console.error('Failed to start server:', err);
-});
+export default app;
