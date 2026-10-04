@@ -24,14 +24,14 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
   )}`;
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-stone-950/95 backdrop-blur-xl border-t border-cyan-900/30 px-3 pt-2 pb-safe-offset-2 shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.8)]">
-      <div className="flex items-center justify-around gap-1 max-w-md mx-auto">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-stone-950/95 backdrop-blur-xl border-t border-cyan-900/30 px-2.5 pt-1.5 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.8)]">
+      <div className="flex items-center justify-around gap-0.5 max-w-md mx-auto">
         {/* Menu Tab */}
         <button
           onClick={() => onNavigateSection('menu')}
-          className="flex flex-col items-center justify-center flex-1 py-1.5 px-1 rounded-xl text-stone-300 hover:text-cyan-400 active:scale-95 transition-all"
+          className="flex flex-col items-center justify-center flex-1 py-1.5 px-0.5 rounded-xl text-stone-300 hover:text-cyan-400 active:scale-95 transition-all"
         >
-          <UtensilsCrossed className="w-5 h-5 text-cyan-400 mb-0.5" />
+          <UtensilsCrossed className="w-[1.15rem] h-[1.15rem] text-cyan-400 mb-0.5" />
           <span className="text-[10px] font-semibold tracking-tight">{t.mobileNav.menu}</span>
         </button>
 
