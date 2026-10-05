@@ -88,7 +88,7 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
 
             {/* Action buttons - Mobile touch-optimized */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:flex lg:flex-wrap items-center gap-2 pt-1 sm:pt-2">
+            <div className="grid grid-cols-2 lg:grid-cols-2 items-stretch gap-2 sm:gap-3 pt-1 sm:pt-2 max-w-3xl">
               <a
                 href={RESTAURANT_CONFIG.whatsappUrl}
                 target="_blank"
