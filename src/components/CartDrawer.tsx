@@ -37,7 +37,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   );
 
   const handleWhatsAppOrder = () => {
-    if (orderType === 'livraison' && !deliveryAddress.trim()) {
+    const safeName = customerName.trim().slice(0, 80);
+    const safePhone = customerPhone.trim().slice(0, 30);
+    const safeAddress = deliveryAddress.trim().slice(0, 240);
+    const safeNotes = orderNotes.trim().slice(0, 300);
+
+    if (orderType === 'livraison' && !safeAddress) {
       alert(language === 'ar' ? 'يرجى إدخال عنوان التوصيل.' : 'Veuillez saisir votre adresse de livraison.');
       return;
     }
@@ -47,8 +52,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       orderType,
       customerName,
       customerPhone,
-      deliveryAddress,
-      orderNotes,
+      safeAddress,
+      safeNotes,
       language
     );
     window.open(url, '_blank');
@@ -58,7 +63,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     <div className="fixed inset-0 z-50 flex justify-end bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="bg-stone-900 border-l border-stone-800 w-full sm:max-w-md h-full flex flex-col justify-between shadow-2xl text-stone-100">
         {/* Header */}
-        <div className="p-3.5 sm:p-5 bg-stone-950 border-b border-stone-800 flex items-center justify-between">
+        <div className="p-4 sm:p-5 bg-stone-950/98 border-b border-stone-800 flex items-center justify-between shadow-sm">
           <div className="flex items-center gap-2">
             <ShoppingBag className="w-5 h-5 text-amber-500" />
             <h3 className="font-bold text-lg text-white">{t.cart.title}</h3>
@@ -189,7 +194,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <input
                     type="text"
                     value={customerName}
-                    onChange={(e) => setCustomerName(e.target.value)}
+                    onChange={(e) => setCustomerName(e.target.value.slice(0, 80))}
+                    maxLength={80}
                     placeholder={t.cart.customerName}
                     className="w-full px-3 py-2.5 bg-stone-950 border border-stone-800 rounded-lg text-xs text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500"
                   />
@@ -199,7 +205,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <input
                     type="tel"
                     value={customerPhone}
-                    onChange={(e) => setCustomerPhone(e.target.value)}
+                    onChange={(e) => setCustomerPhone(e.target.value.slice(0, 30))}
+                    maxLength={30}
                     placeholder={t.cart.customerPhone}
                     className="w-full px-3 py-2 bg-stone-950 border border-stone-800 rounded-lg text-xs text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500"
                   />
@@ -210,7 +217,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     <textarea
                       rows={2}
                       value={deliveryAddress}
-                      onChange={(e) => setDeliveryAddress(e.target.value)}
+                      onChange={(e) => setDeliveryAddress(e.target.value.slice(0, 240))}
+                      maxLength={240}
                       placeholder={language === 'ar' ? 'عنوان التوصيل *' : 'Adresse de livraison *'}
                       className="w-full px-3 py-2 bg-stone-950 border border-stone-800 rounded-lg text-xs text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500 resize-none"
                     />
@@ -221,7 +229,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <textarea
                     rows={2}
                     value={orderNotes}
-                    onChange={(e) => setOrderNotes(e.target.value)}
+                    onChange={(e) => setOrderNotes(e.target.value.slice(0, 300))}
+                    maxLength={300}
                     placeholder={t.cart.notesPlaceholder}
                     className="w-full px-3 py-2 bg-stone-950 border border-stone-800 rounded-lg text-xs text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500 resize-none"
                   />
@@ -244,7 +253,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
         {/* Footer Checkout */}
         {items.length > 0 && (
-          <div className="p-3.5 sm:p-5 bg-stone-950 border-t border-stone-800 space-y-3">
+          <div className="p-4 sm:p-5 bg-stone-950/98 border-t border-stone-800 space-y-3 shadow-[0_-12px_30px_rgba(0,0,0,0.35)]">
             <div className="flex items-center justify-between text-sm">
               <span className="text-stone-400">{t.cart.total}</span>
               <span className="text-xl font-black text-amber-400">
@@ -254,7 +263,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
             <button
               onClick={handleWhatsAppOrder}
-              className="w-full min-h-12 py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-stone-950 font-black text-sm rounded-xl transition-all shadow-lg shadow-emerald-950/50 flex items-center justify-center gap-2"
+              className="w-full min-h-12 py-3.5 px-4 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-stone-950 font-black text-sm rounded-xl transition-all shadow-lg shadow-emerald-950/50 flex items-center justify-center gap-2"
             >
               <Send className="w-4 h-4" />
               <span>{t.cart.whatsappOrderButton}</span>
