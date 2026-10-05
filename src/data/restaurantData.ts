@@ -36,7 +36,7 @@ export const RESTAURANT_CONFIG = {
     'Poissons grillés au charbon de bois',
     'Commandes WhatsApp & Téléphone',
   ],
-  mapsSearchUrl: 'https://www.google.com/maps/search/?api=1&query=5+Av.+Khiali+Ben+Salem+Mohamed+Oran+31000',
+  mapsSearchUrl: 'https://maps.app.goo.gl/Lths96JCFdRs1v1YA',
   mapsReviewUrl: 'https://search.google.com/local/writereview?placeid=ChIJ-pecherie-oran',
 };
 
